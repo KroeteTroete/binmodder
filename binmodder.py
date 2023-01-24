@@ -1,77 +1,83 @@
-#Written by Liam/KroeteTroete
+#Written by Liam/KroeteTroete for development of the GOF2 Google Translate Mod
 import gof2translate
 
-binFile = 'stations.bin'
+#successfulReplacements = 0
+#failedReplacements = 0
 
-names = """"""
-
-
-
-#replacements = """"""
-
-replacements = gof2translate.breaktranslation(names)
-
-namesArray = names.split('\n')
-replacementsArray = replacements.split('\n')
-
-#for i in replacementsArray:
-#    print(i)
-
-successfulReplacements = 0
-failedReplacements = 0
-
-for i in namesArray:
-    # Open the file in binary mode
-    with open(binFile, 'rb') as f:
-        # Read the entire contents of the file into a bytes object
-        file_contents = f.read()
-        #find position of the string in byte array
-        index = file_contents.find(bytes(i, 'utf-8'))
-
-        if index != -1:
-            chosenReplacement = replacementsArray[namesArray.index(i)]
-            new_data = file_contents.replace(bytes(i, 'utf-8'), bytes(chosenReplacement, 'utf-8'))
-            print(f"replaced {i} with {chosenReplacement}")
-            with open(binFile, 'wb') as f:
-                f.seek(0)
-                f.write(new_data)
-                successfulReplacements += 1
-                index2 = file_contents.find(bytes(chosenReplacement, 'utf-8'))
-        else:
-            print(f"""
-            {i} not found in {binFile}
-            """)
-            failedReplacements += 1
-
-
-
-f.close()
-
-# Open the file in binary mode
-with open(binFile, 'rb+') as f:
-    # Read the entire contents of the file into a bytes object
-    file_contents = f.read()
-
-    for i in replacementsArray:
+def breakStrings(binStrings):
     
-        # Search for the specific string within the bytes object
-        index = file_contents.find(bytes(i, 'utf-8'))
-        
-        # If the string was found, replace the byte preceding it with the string length
-        if index != -1:
-            # Extract the byte preceding the string
-            preceding_byte = file_contents[index - 1]
-            
-            # Convert the string length to a single-byte character
-            string_length = chr(len(i)).encode('utf-8')
-            
-            # Replace the original byte with the new character
-            file_contents = file_contents[:index-1] + string_length + file_contents[index:]
-            
-            # Move the file pointer to the beginning of the file
-            f.seek(0)
-            
-            # Write the modified bytes object back to the file
-            f.write(file_contents)
+    translatedStrings = gof2translate.breaktranslation(binStrings)
+    return translatedStrings
 
-print(f"{successfulReplacements} successful replacements and {failedReplacements} failed replacements")
+def separateStrings(binStrings):
+    namesArray = binStrings.split('\n')
+    return namesArray
+
+def replaceBinStrings(binFile, binStringsArray, stringReplacements, returnReplacements = False):
+    """
+    Replace a List of Strings
+
+    :param str binFile: name or path of the .bin file, including file suffix (for example: names_bobolan_0.bin)
+    :param str binStringsArray: Array of strings which are to be replaced
+    :param str stringReplacements: Replacement strings which are to be placed into the .bin
+    :param bool returnReplacements: Whether or not the replacementArray should be returned (useful if breakStrings() was used in the process. Defaults to FALSE)
+    """
+
+    for i in binStringsArray:
+        
+        with open(binFile, 'rb') as f:
+            
+            file_contents = f.read()
+            #find position of the name in byte array
+            index = file_contents.find(bytes(i, 'utf-8'))
+
+            #if found
+            if index != -1:
+                chosenReplacement = stringReplacements[binStringsArray.index(i)]
+                new_data = file_contents.replace(bytes(i, 'utf-8'), bytes(chosenReplacement, 'utf-8'))
+                print(f"replaced {i} with {chosenReplacement}")
+                with open(binFile, 'wb') as f:
+                    f.seek(0)
+                    f.write(new_data)
+                    #successfulReplacements += 1
+                    #index2 = file_contents.find(bytes(chosenReplacement, 'utf-8'))
+            else:
+                print(f"""
+                {i} not found in {binFile}
+                """)
+                #failedReplacements += 1
+    
+    f.close()
+    if returnReplacements:
+        return stringReplacements
+    
+
+def placeStringLength(binFile, stringReplacements):
+    """
+    Place the string length into the byte preceding the string
+
+    :param str binFile: name or path of the .bin file, including file suffix (for example: names_bobolan_0.bin)
+    :param str stringReplacements: strings which length bytes need to be changed
+    """
+    with open(binFile, 'rb+') as f:
+        file_contents = f.read()
+
+        for i in stringReplacements:
+        
+            index = file_contents.find(bytes(i, 'utf-8'))
+            
+            if index != -1:
+                # Extract the byte preceding the string
+                #preceding_byte = file_contents[index - 1]
+                
+                string_length = chr(len(i)).encode('utf-8')
+                
+                # Place string_length in front of the name (:index-1)
+                file_contents = file_contents[:index-1] + string_length + file_contents[index:]
+                
+                f.seek(0)
+                
+                f.write(file_contents)
+
+        #print(f"{successfulReplacements} successful replacements and {failedReplacements} failed replacements")
+
