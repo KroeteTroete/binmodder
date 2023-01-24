@@ -1,3 +1,5 @@
 names_bobolan_0.bin
 backup bins
 binModderGui.py
+.vscode
+__pycache__
