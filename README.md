@@ -1,6 +1,7 @@
 # binmodder
-Script for replacing strings in the .bin files for Galaxy On Fire 2. Also uses a version of random-googletrans, gof2translate
-Made for the GOF2 Google Translate Mod
+Python program for replacing strings in the .bin files for Galaxy On Fire 2. Also uses a version of random-googletrans, gof2translate
+
+<b>Made for the GOF2 Google Translate Mod</b>
 
 <h2>Dependencies:</h2>
 gof2translate.py uses googletrans3.1.0a0 to prevent AttributeError: 'NoneType' object has no attribute 'group'
