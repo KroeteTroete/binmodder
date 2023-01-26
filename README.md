@@ -9,6 +9,15 @@ You will therefore need googletrans==3.1.0a0
 
 <b>pip install googletrans==3.1.0a0</b>
 
+<h2>How to use the GUI:</h2>
+Run binModderGui.py
+Select the .bin file you want to modify by clicking "Choose .bin file".
+Make a .txt file which contains the strings in the .bin file you want to replace (You can see the strings of a .bin file in a hex editor) and seperate the strings with a new line. (!Make sure the very last line is not empty!)
+Import that .txt file into binmodder by clicking on "Choose strings to be replaced".
+
+If you want to use the gof2translate feature, check the gof2translate box and click on "Replace".
+If you want to choose the replacements yourself, make another .txt file which contains the replacements for the strings in the same order, seperated by new lines and import it by clicking on "Choose replacements". Then click on "Replace".
+
 <h3>GOF2 Google Translate Mod:</h3>
 <a href="https://www.moddb.com/mods/gof2-google-translated" title="View GOF2 Google Translated (Not finished at all) on Mod DB" target="_blank"><img src="https://button.moddb.com/popularity/medium/mods/56340.png" alt="GOF2 Google Translated (Not finished at all)" /></a>
 
