@@ -5,3 +5,4 @@ backup bins
 __pycache__
 strings.txt
 replacements.txt
+testnames.bin

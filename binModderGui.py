@@ -44,6 +44,10 @@ def binmodCallback():
                 bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
                 binStringsArray=bm.separateStrings(txtContent), 
                 stringReplacements=bm.separateStrings(txtContentRep)))
+    showinfo(
+        title="Done!",
+        message="Done!"
+    )
 
 def gof2transCheck():
     if googleTransVar.get() == True:
