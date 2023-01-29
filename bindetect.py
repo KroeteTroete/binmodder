@@ -41,8 +41,3 @@ def detectStrings(binFile, binType, returnType = 'list'):
             namesInString = namesInString + "\n" + i
         
         return namesInString
-         
-                
-myList = detectStrings("testnames.bin", "names", "string")
-
-print(myList)
