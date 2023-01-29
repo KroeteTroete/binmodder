@@ -1,0 +1,3 @@
+[submodule "random-googletrans.py"]
+	path = random-googletrans.py
+	url = https://github.com/KroeteTroete/random-googletrans.py.git
