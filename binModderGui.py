@@ -1,5 +1,6 @@
 import os
 import binmodder as bm
+import bindetect as bd
 from tkinter import *
 from tkinter import scrolledtext
 from tkinter import filedialog as fd
@@ -22,7 +23,6 @@ googleTransVar = tk.BooleanVar(root)
 binPath = tk.StringVar(root)
 txtPath = tk.StringVar(root)
 txtPathRep = tk.StringVar(root)
-
 stringAdded = False
 
 #callbacks
@@ -56,6 +56,12 @@ def gof2transCheck():
         open_button3.configure(state='enable')
         textBoxRep.delete(1.0, END)
     
+def detect():
+    if binPath.get() == '':
+        showinfo(
+            title='Error',
+            message='No .bin file has been selected'
+        )
 
 #entry box and Submit button
 text1 = tk.Label(
@@ -216,7 +222,15 @@ button2 = tk.Button(
     command=binmodCallback
 )
 
+detectButton = ttk.Button(
+    root,
+    text='Detect Strings',
+    command=detect
+)
+
 gtCheck.grid(row=4, column=3, sticky='w')
-button2.grid(row=5, column=3, sticky='w')
+detectButton.grid(row=5, column=3, sticky='w')
+button2.grid(row=6, column=3, sticky='w')
+
 root.mainloop()
 
