@@ -1,5 +1,5 @@
 #Written by Liam/KroeteTroete for development of the GOF2 Google Translate Mod
-from random_googletrans import gof2translate
+from random_googletrans.gof2translate import gof2translate
 
 #successfulReplacements = 0
 #failedReplacements = 0
