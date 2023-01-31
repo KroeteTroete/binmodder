@@ -11,24 +11,69 @@ import tkinter as tk
 from tkinter import ttk
 windll.shcore.SetProcessDpiAwareness(1)
 
+#https://stackoverflow.com/a/58009290
+class OptionDialog(Toplevel):
+    """
+        This dialog accepts a list of options.
+        If an option is selected, the results property is to that option value
+        If the box is closed, the results property is set to zero
+    """
+    def __init__(self,parent,title,question,options):
+        Toplevel.__init__(self,parent)
+        self.title(title)
+        self.question = question
+        self.transient(parent)
+        self.protocol("WM_DELETE_WINDOW",self.cancel)
+        self.options = options
+        self.result = '_'
+        self.createWidgets()
+        self.grab_set()
+        ## wait.window ensures that calling function waits for the window to
+        ## close before the result is returned.
+        self.wait_window()
+    def createWidgets(self):
+        frmQuestion = Frame(self)
+        Label(frmQuestion,text=self.question).grid()
+        frmQuestion.grid(row=1)
+        frmButtons = Frame(self)
+        frmButtons.grid(row=2)
+        column = 0
+        for option in self.options:
+            btn = Button(frmButtons,text=option,command=lambda x=option:self.setOption(x))
+            btn.grid(column=column,row=0)
+            column += 1 
+    def setOption(self,optionSelected):
+        self.result = optionSelected
+        self.destroy()
+    def cancel(self):
+        self.result = None
+        self.destroy()
+
+
 #Window Settings
 root = tk.Tk()
 root.geometry('1000x550+50+50')
 root.title("binmodder by Kroete")
 root.resizable(False,False)
 
-#tk Vars
+#Variables
 myString =tk.StringVar(root)
 googleTransVar = tk.BooleanVar(root)
 binPath = tk.StringVar(root)
 txtPath = tk.StringVar(root)
 txtPathRep = tk.StringVar(root)
-stringAdded = False
+usedBD = False
+BDcontent = []
+BDcontentList = []
+
 
 #callbacks
 
 def binmodCallback():
-    if googleTransVar.get() == True:
+    global usedBD
+    print(f"usedBD = {usedBD}")
+    print(f"gt = {googleTransVar.get()}")
+    if googleTransVar.get()==True and usedBD==False:
         with open(txtPath.get(), 'r') as f:
             txtContent = f.read()
             bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
@@ -36,7 +81,8 @@ def binmodCallback():
                                     stringReplacements=bm.separateStrings(bm.breakStrings(txtContent)), 
                                     returnReplacements=True))
         f.close()
-    else:
+
+    elif googleTransVar.get()==False and usedBD==False:
         with open(txtPath.get(), 'r') as f:
             txtContent = f.read()
             with open(txtPathRep.get(), 'r') as rep:
@@ -44,6 +90,20 @@ def binmodCallback():
                 bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
                 binStringsArray=bm.separateStrings(txtContent), 
                 stringReplacements=bm.separateStrings(txtContentRep)))
+            rep.close()
+        f.close()
+
+    elif googleTransVar.get()==True and usedBD==True:
+        bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
+                                    binStringsArray=BDcontentList, 
+                                    stringReplacements=bm.separateStrings(bm.breakStrings(BDcontent)), 
+                                    returnReplacements=True))
+
+    elif usedBD==True and googleTransVar.get()==False:
+        bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
+                binStringsArray=BDcontentList, 
+                stringReplacements=bm.separateStrings(txtContentRep)))
+
     showinfo(
         title="Done!",
         message="Done!"
@@ -57,11 +117,28 @@ def gof2transCheck():
         textBoxRep.delete(1.0, END)
     
 def detect():
+    global BDcontent
+    global BDcontentList
+    global usedBD
     if binPath.get() == '':
         showinfo(
             title='Error',
             message='No .bin file has been selected'
         )
+    else:
+        dlg = OptionDialog(
+            root, 
+            '.bin type', 
+            'Please select a .bin type',
+            ['names']) #TODO Add systems and stations bin structures to bindetect and the detect() method
+        detectedStringsList = bd.detectStrings(binPath.get(),dlg.result, 'list') 
+        detectedStrings = bd.detectStrings(binPath.get(),dlg.result, 'string')     
+        textBox.configure(state='normal')
+        textBox.insert(INSERT, detectedStrings)
+        textBox.configure(state='disabled')
+        usedBD = True
+        BDcontentList = detectedStringsList
+        BDcontent = detectedStrings
 
 #entry box and Submit button
 text1 = tk.Label(
