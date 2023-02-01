@@ -1,6 +1,6 @@
 import os
 import binmodder as bm
-import bindetect as bd
+from gofdetect import bindetect as bd
 from tkinter import *
 from tkinter import scrolledtext
 from tkinter import filedialog as fd
@@ -130,7 +130,7 @@ def detect():
             root, 
             '.bin type', 
             'Please select a .bin type',
-            ['names']) #TODO Add systems and stations bin structures to bindetect and the detect() method
+            ['names', 'stations', 'systems']) #TODO Add systems and stations bin structures to bindetect and the detect() method
         detectedStringsList = bd.detectStrings(binPath.get(),dlg.result, 'list') 
         detectedStrings = bd.detectStrings(binPath.get(),dlg.result, 'string')     
         textBox.configure(state='normal')
