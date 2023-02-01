@@ -1,0 +1,6 @@
+[submodule "random_googletrans"]
+	path = random_googletrans
+	url = https://github.com/KroeteTroete/random_googletrans.git
+[submodule "gofdetect"]
+	path = gofdetect
+	url = https://github.com/KroeteTroete/gofdetect.git
