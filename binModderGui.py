@@ -134,6 +134,7 @@ def detect():
         detectedStringsList = bd.detectStrings(binPath.get(),dlg.result, 'list') 
         detectedStrings = bd.detectStrings(binPath.get(),dlg.result, 'string')     
         textBox.configure(state='normal')
+        textBox.delete(1.0, END)
         textBox.insert(INSERT, detectedStrings)
         textBox.configure(state='disabled')
         usedBD = True
@@ -155,6 +156,7 @@ selectedBin = tk.Label(
 def select_bin():
     filetypes = (
         ('binary file', '*.bin'),
+        ('language file', '*.lang'),
         ('All files', '*.*')
     )
 
