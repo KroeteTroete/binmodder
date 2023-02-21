@@ -130,7 +130,7 @@ def detect():
             root, 
             '.bin type', 
             'Please select a .bin type',
-            ['names', 'stations', 'systems']) #TODO Add systems and stations bin structures to bindetect and the detect() method
+            ['names', 'stations', 'systems', 'agents']) #TODO Add systems and stations bin structures to bindetect and the detect() method
         detectedStringsList = bd.detectStrings(binPath.get(),dlg.result, 'list') 
         detectedStrings = bd.detectStrings(binPath.get(),dlg.result, 'string')     
         textBox.configure(state='normal')
