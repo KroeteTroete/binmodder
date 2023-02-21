@@ -10,7 +10,8 @@ You will therefore need googletrans==3.1.0a0
 <b>pip install googletrans==3.1.0a0</b>
 
 <h2>How to use the GUI:</h2>
-Run binModderGui.py
+Run binModderGui.py or download on of the <a href=https://github.com/KroeteTroete/binmodder/releases/>releases</a> and execute binModderGui.exe
+
 Select the .bin file you want to modify by clicking "Choose .bin file".
 
 <h3>Using .txt files</h3>
