@@ -1,4 +1,5 @@
 #Written by Liam/KroeteTroete for development of the GOF2 Google Translate Mod
+import struct
 from random_googletrans.gof2translate import gof2translate
 
 #successfulReplacements = 0
@@ -9,8 +10,8 @@ def breakStrings(binStrings):
     translatedStrings = gof2translate.breaktranslation(binStrings)
     return translatedStrings
 
-def separateStrings(binStrings):
-    namesArray = binStrings.split('\n')
+def separateStrings(binStrings, splitter = '\n'):
+    namesArray = binStrings.split(splitter)
     return namesArray
 
 def replaceBinStrings(binFile, binStringsArray, stringReplacements, returnReplacements = False):
@@ -70,10 +71,11 @@ def placeStringLength(binFile, stringReplacements):
                 # Extract the byte preceding the string
                 #preceding_byte = file_contents[index - 1]
                 
-                string_length = chr(len(i)).encode('utf-8')
-                
+                #string_length = chr(len(i)).encode('utf-8')
+                string_length = struct.pack('>H', len(i))
+
                 # Place string_length in front of the name (:index-1)
-                file_contents = file_contents[:index-1] + string_length + file_contents[index:]
+                file_contents = file_contents[:index-2] + string_length + file_contents[index:]
                 
                 f.seek(0)
                 
