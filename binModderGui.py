@@ -1,5 +1,6 @@
 import os
 import binmodder as bm
+import codecs
 from gofdetect import bindetect as bd
 from tkinter import *
 from tkinter import scrolledtext
@@ -74,7 +75,7 @@ def binmodCallback():
     print(f"usedBD = {usedBD}")
     print(f"gt = {googleTransVar.get()}")
     if googleTransVar.get()==True and usedBD==False:
-        with open(txtPath.get(), 'r') as f:
+        with open(txtPath.get(), 'r', encoding="utf-8") as f:
             txtContent = f.read()
             bm.placeStringLength(binPath.get(), bm.replaceBinStrings(binFile=binPath.get(), 
                                     binStringsArray=bm.separateStrings(txtContent), 
@@ -83,7 +84,7 @@ def binmodCallback():
         f.close()
 
     elif googleTransVar.get()==False and usedBD==False:
-        with open(txtPath.get(), 'r') as f:
+        with open(txtPath.get(), 'r',encoding="utf-8") as f:
             txtContent = f.read()
             with open(txtPathRep.get(), 'r') as rep:
                 txtContentRep = rep.read()
@@ -211,7 +212,7 @@ def select_txt():
     txtPath.set(filename)
     textBox.delete(1.0,END)
     
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         textBox.configure(state='normal')
         textBox.insert(INSERT, f.read())
         textBox.configure(state='disabled')

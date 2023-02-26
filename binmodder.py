@@ -14,7 +14,7 @@ def separateStrings(binStrings, splitter = '\n'):
     namesArray = binStrings.split(splitter)
     return namesArray
 
-def replaceBinStrings(binFile, binStringsArray, stringReplacements, returnReplacements = False):
+def replaceBinStrings(binFile, binStringsArray, stringReplacements, returnReplacements = False, fileEncoding="utf-8"):
     """
     Replace a List of Strings
 
